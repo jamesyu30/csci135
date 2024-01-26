@@ -16,7 +16,7 @@ int main(){
     cout << "Enter a number: ";
     cin >> i;
     if (i>0){
-        cout << "postive" << endl;
+        cout << "positive" << endl;
     }else if (i<0){
         cout << "negative" << endl;
     }else{

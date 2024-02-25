@@ -1,4 +1,3 @@
-
 // Author: James Yu
 // Course: CSCI-135
 // Instructor: Tong Yi

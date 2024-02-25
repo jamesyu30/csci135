@@ -12,48 +12,12 @@
 #include <string>
 using namespace std;
 
-bool generateProb(int i){
-    char op[5] = {'+', '-', '*', '/', '%'};
-
-    char randop = op[rand() % 5]; // selects random operator
-    int first = rand() % 10; //generates number from 0 to 9
-    int second = rand() % 10;
-
-    //checks if second number is 0
-    do{
-        second = rand() % 10 + 1;
-    }
-    while((randop == '/' || randop == '%') && second == 0);
-
-    float ans;
-    //does the operation
-    if (randop == '+'){
-        ans = first + second;
-    }
-    if (randop == '-'){
-        ans = first - second;
-    }
-    if (randop == '*'){
-        ans = first * second;
-    }
-    if (randop == '/'){
-        ans = first / second;
-    }
-    if (randop == '%'){
-        ans = first % second;
-    }
-
-    float inAns;
-    // asks user for answer and checks it
-    cout << "(" << i << ") " << "what is " << first << " " << randop << " " << second << "?" << " ";
-    cin >> inAns;
-    cout << boolalpha << (inAns == ans) << endl << endl;   
-    return (inAns == ans);
-}
-
 int main(){
     float right = 0;
     int num = 0;
+    char op[5] = {'+', '-', '*', '/', '%'};
+    char randop;
+    float first, second;
 
     cout << "Enter the total number of questions to ask: ";
     cin >> num;
@@ -63,27 +27,65 @@ int main(){
         cin >> num;
     }
     for (int i = 0; i < num; i++){
-        if(generateProb(i+1)){
+
+        randop = op[rand() % 5]; // selects random operator
+        first = rand() % 10; //generates number from 0 to 9
+
+        //checks if second number is 0
+        if (randop == '/' || randop == '%'){
+            second = rand() % 9 + 1;
+        }else{
+            second = rand() % 10;
+        }
+
+        float ans;
+        //does the operation
+        if (randop == '+'){
+            ans = first + second;
+        }
+        if (randop == '-'){
+            ans = first - second;
+        }
+        if (randop == '*'){
+            ans = first * second;
+        }
+        if (randop == '/'){
+            ans = first / second;
+        }
+        if (randop == '%'){
+            ans = (int) first % (int) second;
+        }
+
+        float inAns;
+        // asks user for answer and checks it
+        cout << "(" << i+1 << ") " << "what is " << first << " " << randop << " " << second << "?" << " ";
+        cin >> inAns;
+        if (inAns == ans){
             right++;
         }
+        cout << boolalpha << (inAns == ans) << endl;   
+
     }
 
-    float percent = right/num;
-    cout << "percentage correct: " << percent*100 << "%" << endl;
+    float percent = right * 100 /num;
 
-    if (percent >= .89999){
-        cout << "letter grade: A" << endl;
+    cout << "percentage correct: " << percent << "%" << endl;
+    cout << "letter grade: ";
+
+    if (percent/100 >= .8999999){
+        cout << "A";
     }
-    else if (percent >= .7999){
-        cout << "letter grade: B" << endl;
+    else if (percent/100 >= .799999){
+        cout << "B";
     }
-    else if (percent >= .69999){
-        cout << "letter grade: C" << endl;
+    else if (percent/100 >= .699999){
+        cout << "C";
     }
-    else if (percent >= .59999){
-        cout << "letter grade: D" << endl;
+    else if (percent/100 >= .5999999){
+        cout << "D";
     }
     else{
-        cout << "letter grade: F" << endl;
+        cout << "F";
     }
+    cout << endl;
 }

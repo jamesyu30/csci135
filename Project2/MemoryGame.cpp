@@ -110,23 +110,22 @@ void MemoryGame::display() const {
 
 int MemoryGame::input() const{
     int slot;
-    bool valid = true;
-    std::cout << "Enter a unflipped card in [0, " << numSlots-1 << "]: " << endl;
-    std::cin >> slot;
-    do{
-        if(slot < 0 || slot > numSlots-1){
-            std::cout << "input is not in [0, " << numSlots-1 << "]. Re-enter: " << endl;
-            valid = false;
-            cin >> slot;
+    bool wrong = false;
+    while (true) {
+        if(!wrong){
+            std::cout << "Enter a unflipped card in [0, " << numSlots - 1 << "]: ";
         }
-        else if (bShown[slot]){
-            std::cout << "The card is flipped already. Re-enter: " << endl;
-            valid = false;
-            cin >> slot;
-        }else{
-            valid = true;
+        std::cin >> slot;
+        if (slot < 0 || slot >= numSlots) {
+            std::cout << "input is not in [0, " << numSlots - 1 << "]. Re-enter: ";
+            wrong = true;
+        } else if (bShown[slot]) {
+            std::cout << "The card is flipped already. Re-enter: ";
+            wrong = true;
+        } else {
+            break;
         }
-    }while(!valid);
+    }
     //cout << slot << endl;
     return slot;
 }
@@ -138,9 +137,17 @@ void MemoryGame::play(){
     int slot; //inputed slot
     int flipped = 0; //number of flipped cards
     int prev = 0; //previous input
-    while (right != numSlots/2){
+
+    //check number of no value cards
+    int noval = 0;
+    for (int i = 0; i < numSlots; i++){
+        if (values[i] == ""){
+            noval++;
+        }
+    }
+    while (right != (numSlots-noval)/2){
         display();
-        cout << "Round \t" << round << ":" << endl;
+        std::cout << "Round \t" << round << ":" << std::endl;
         if (round > 1){
             prev = slot;
         }
@@ -166,5 +173,5 @@ void MemoryGame::play(){
         round++;
     }
     display();
-    cout << "Congratulations! Found out all pairs in " << round-1 << " rounds" << endl;
+    std::cout << "Congratulations! Found out all pairs in " << round-1 << " rounds" << std::endl;
 }
